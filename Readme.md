@@ -1,6 +1,8 @@
 ![](https://vb-counter.surge.sh/shot.png)
 
-### Basic template for React + Ether Dapps
+### Basic example project/template for ethereum dapps
+
+#### Todos
 
 - [x] Template
 - [ ] Support multiple wallets

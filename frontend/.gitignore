@@ -13,4 +13,4 @@ NOTES.md
 
 node_modules
 build
-frontend/src/data
+src/data
