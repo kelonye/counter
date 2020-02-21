@@ -9,8 +9,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-NOTES.md
-
 node_modules
 build
 src/data
