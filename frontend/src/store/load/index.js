@@ -6,16 +6,14 @@ class Init {
   async load(getState) {
     this.state = getState();
 
-    // try {
-    //   await this.loadUser();
-    // } catch (error) {
-    //   this.state.app.error = error;
-    // }
+    try {
+      await this.loadData();
+      // await this.matchLocationPath();
+    } catch (error) {
+      this.state.app.error = error;
+    }
 
     this.state.app.isLoaded = true;
-
-    // await this.matchLocationPath();
-    await this.loadData();
 
     return this.state;
   }

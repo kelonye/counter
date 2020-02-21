@@ -1,14 +1,17 @@
 import counter from 'data/contracts/Counter';
 import Promise from 'bluebird';
 import Web3 from 'web3';
+import store from 'store';
+import { setCount } from 'actions';
 
-export const WEB3 = (function() {
-  if (typeof window.web3 !== 'undefined') {
-    return new Web3(window.web3.currentProvider);
-  } else {
-    return new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-  }
-})();
+export const WEB3 = new Web3(
+  typeof window.web3 !== 'undefined'
+    ? window.web3.currentProvider
+    : new Web3.providers.HttpProvider(
+        'https://mainnet.infura.io/v3/90b4177113144a0c82b2b64bc01950e1'
+      )
+);
+window.WEB3 = WEB3;
 
 const ABIS = {
   counter,
@@ -36,15 +39,18 @@ export class Contract {
   }
 
   async callContract(write, method, ...args) {
-    if (!WEB3) {
-      throw new Error('Web3 client required.');
-    }
-    const accounts = await WEB3.eth.getAccounts(); // todo
     return new Promise((resolve, reject) => {
+      const writeOpts = {};
+      if (write) {
+        const {
+          wallet: { account },
+        } = store.getState();
+        writeOpts.from = account;
+      }
       this.contract.methods[method](...args)[write ? 'send' : 'call'](
-        ...(write ? [{ from: accounts[0] }] : []),
+        ...(write ? [writeOpts] : []),
         (err, response) => {
-          if (err) return reject(err);
+          if (err) return reject(err.message);
           resolve(response.c?.[0] ?? response);
         }
       );
@@ -55,3 +61,14 @@ export class Contract {
     this.contract.events[eventName]({}, fn);
   }
 }
+
+const CONTRACT = new Contract('counter');
+export const TOKEN_CONTRACT = CONTRACT;
+export const COUNTER_CONTRACT = CONTRACT;
+
+COUNTER_CONTRACT.on('Count', function(err, result) {
+  if (err) {
+    return console.error(err);
+  }
+  store.dispatch(setCount(parseInt(result.returnValues.count)));
+});

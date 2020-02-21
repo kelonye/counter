@@ -46,6 +46,6 @@ function Component({ count, incrementCount, decrementCount, resetCount }) {
 }
 
 export default connect(
-  ({ counter: { count } }) => ({ count }),
+  ({ count }) => ({ count }),
   mapDispatchToProps
 )(Component);

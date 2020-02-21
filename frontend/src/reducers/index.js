@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import * as asyncInitialState from 'redux-async-initial-state';
 import app from './app';
-import counter from './counter';
+import wallet from './wallet';
+import count from './count';
 
 export default asyncInitialState.outerReducer(
   combineReducers({
     app,
-    counter,
+    wallet,
+    count,
     asyncInitialState: asyncInitialState.innerReducer, // last
   })
 );

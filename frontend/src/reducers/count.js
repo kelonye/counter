@@ -1,8 +1,6 @@
 import { ACTION_TYPE_SET_COUNT } from 'config';
 
-const DEFAULT_STATE = {
-  count: 0,
-};
+const DEFAULT_STATE = 0;
 
 export default (state = DEFAULT_STATE, action) => {
   switch (action.type) {
