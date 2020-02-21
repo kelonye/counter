@@ -1,3 +1,5 @@
+![](https://vb-counter.surge.sh/shot.png)
+
 ### Basic template for React + Ether Dapps
 
 - [x] Template

@@ -3,7 +3,8 @@ run: node_modules
 
 deploy:
 	@git push || xargs echo
-	@surge -d https://counter.surge.sh -p dist
+	@npm run build
+	@surge -d https://vb-counter.surge.sh -p build
 
 node_modules:
 	@npm i
