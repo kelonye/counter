@@ -4,6 +4,7 @@ const DEFAULT_STATE = {
   isLoaded: false,
   contracts: {},
   account: null,
+  isTrackingTransaction: false,
 };
 
 export default (state = DEFAULT_STATE, action) => {

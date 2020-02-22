@@ -1,6 +1,7 @@
 import Promise from 'bluebird';
 import { ACTION_TYPE_UPDATE_WALLET } from 'config';
 import { TOKEN_CONTRACT } from 'utils/wallet';
+import { trackTransaction as dfuseTrackTransaction } from 'utils/dfuse';
 
 export function loadWallet() {
   return async(dispatch, getState) => {
@@ -38,5 +39,13 @@ export function updateWallet(payload) {
   return {
     type: ACTION_TYPE_UPDATE_WALLET,
     payload,
+  };
+}
+
+export function trackTransaction(transactionId) {
+  return async(dispatch, getState) => {
+    dispatch(updateWallet({ isTrackingTransaction: true }));
+    await dfuseTrackTransaction(transactionId);
+    dispatch(updateWallet({ isTrackingTransaction: false }));
   };
 }

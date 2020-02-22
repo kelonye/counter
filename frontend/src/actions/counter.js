@@ -1,5 +1,6 @@
 import { ACTION_TYPE_SET_COUNT } from 'config';
 import { COUNTER_CONTRACT } from 'utils/wallet';
+import { trackTransaction } from './wallet';
 
 export function setCount(payload) {
   return {
@@ -11,7 +12,9 @@ export function setCount(payload) {
 export function incrementCount() {
   return async(dispatch, getState) => {
     try {
-      await COUNTER_CONTRACT.write('incrementCount');
+      await dispatch(
+        trackTransaction(await COUNTER_CONTRACT.write('incrementCount'))
+      );
     } catch (e) {
       console.warn(e);
     }
@@ -21,7 +24,9 @@ export function incrementCount() {
 export function decrementCount() {
   return async(dispatch, getState) => {
     try {
-      await COUNTER_CONTRACT.write('decrementCount');
+      await dispatch(
+        trackTransaction(await COUNTER_CONTRACT.write('decrementCount'))
+      );
     } catch (e) {
       console.warn(e);
     }
@@ -31,7 +36,9 @@ export function decrementCount() {
 export function resetCount() {
   return async(dispatch, getState) => {
     try {
-      await COUNTER_CONTRACT.write('resetCount');
+      await dispatch(
+        trackTransaction(await COUNTER_CONTRACT.write('resetCount'))
+      );
     } catch (e) {
       console.warn(e);
     }

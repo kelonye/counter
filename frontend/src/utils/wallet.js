@@ -22,14 +22,16 @@ export class Contract {
     this.setContractPromise = this.setContract(contractType);
   }
 
+  async isReady() {
+    await this.setContractPromise;
+  }
+
   async setContract(contractType) {
     const networkId = await WEB3.eth.net.getId();
     console.log('network id', networkId);
     const json = CONTRACTS_JSON[contractType];
-    this.contract = new WEB3.eth.Contract(
-      json.abi,
-      json.networks[networkId].address
-    );
+    this.address = json.networks[networkId].address;
+    this.contract = new WEB3.eth.Contract(json.abi, this.address);
   }
 
   async read(method, ...args) {

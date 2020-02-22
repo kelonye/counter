@@ -10,6 +10,7 @@ import { Router } from 'react-router-dom';
 import { history } from 'store';
 import themeSelector, { isDarkSelector } from 'selectors/theme';
 import { CssBaseline } from '@material-ui/core';
+import 'utils/dfuse';
 
 const useStyles = makeStyles(theme => ({
   error: { padding: 50, color: DANGER_COLOR },
