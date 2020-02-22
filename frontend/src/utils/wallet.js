@@ -1,8 +1,12 @@
-import counter from 'data/contracts/Counter';
+import COUNTER_CONTRACT_JSON from 'data/contracts/Counter';
 import Promise from 'bluebird';
 import Web3 from 'web3';
 import store from 'store';
 import { setCount } from 'actions';
+
+const CONTRACTS_JSON = {
+  counter: COUNTER_CONTRACT_JSON,
+};
 
 export const WEB3 = new Web3(
   typeof window.web3 !== 'undefined'
@@ -13,20 +17,18 @@ export const WEB3 = new Web3(
 );
 window.WEB3 = WEB3;
 
-const ABIS = {
-  counter,
-};
-
 export class Contract {
   constructor(contractType) {
-    this.contract = this.getContract(contractType);
+    this.setContractPromise = this.setContract(contractType);
   }
 
-  getContract(contractType) {
-    const json = ABIS[contractType];
-    return new WEB3.eth.Contract(
+  async setContract(contractType) {
+    const networkId = await WEB3.eth.net.getId();
+    console.log('network id', networkId);
+    const json = CONTRACTS_JSON[contractType];
+    this.contract = new WEB3.eth.Contract(
       json.abi,
-      Object.values(json.networks)[0].address
+      json.networks[networkId].address
     );
   }
 
@@ -39,6 +41,7 @@ export class Contract {
   }
 
   async callContract(write, method, ...args) {
+    await this.setContractPromise;
     return new Promise((resolve, reject) => {
       const writeOpts = {};
       if (write) {
@@ -57,7 +60,8 @@ export class Contract {
     });
   }
 
-  on(eventName, fn) {
+  async on(eventName, fn) {
+    await this.setContractPromise;
     this.contract.events[eventName]({}, fn);
   }
 }
