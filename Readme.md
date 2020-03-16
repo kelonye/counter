@@ -1,8 +1,6 @@
-![](https://vb-counter.surge.sh/shot.png)
+![](https://decentralized-counter.surge.sh/shot.png)
 
 ### Basic example project/template for ethereum dapps
-
-#### Tools
 
 - [React](https://reactjs.org/)
 - [Material UI](https://material-ui.com/)

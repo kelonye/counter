@@ -1,10 +1,10 @@
-import { ACTION_TYPE_SET_COUNT } from 'config';
-import { COUNTER_CONTRACT } from 'utils/wallet';
+import { ACTION_TYPE_UPDATE_DATA } from 'config';
+import { COUNTER_CONTRACT } from 'contracts';
 import { trackTransaction } from './wallet';
 
-export function setCount(payload) {
+export function updateData(payload) {
   return {
-    type: ACTION_TYPE_SET_COUNT,
+    type: ACTION_TYPE_UPDATE_DATA,
     payload,
   };
 }

@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import IncrementCountIcon from '@material-ui/icons/Add';
 import DecrementCountIcon from '@material-ui/icons/Remove';
 import Loader from './Loader';
+import { COUNTER_CONTRACT } from 'contracts';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -27,20 +28,63 @@ const useStyles = makeStyles(theme => ({
 
 function Component({
   isTrackingTransaction,
+  account,
   count,
   incrementCount,
   decrementCount,
   resetCount,
+  activateWallet,
+  networkName,
+  networkSupported,
+  updateWallet,
+  updateData,
 }) {
   const classes = useStyles();
 
-  return (
-    <div className={clsx('flex flex--justify-center', classes.container)}>
-      <Paper
-        className={clsx(classes.paper, {
-          [classes.paperInactive]: isTrackingTransaction,
-        })}
+  React.useEffect(() => {
+    if (networkSupported) {
+      COUNTER_CONTRACT.on('Count', function(err, result) {
+        if (err) {
+          return console.error(err);
+        }
+        updateData({ count: parseInt(result.returnValues.count) });
+      });
+    }
+
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', () => {
+        document.location.reload();
+      });
+
+      window.ethereum.on('accountsChanged', function(accounts) {
+        updateWallet({ account: accounts[0] });
+      });
+    }
+  }, [networkSupported, updateData, updateWallet]);
+
+  let pane;
+
+  if (!networkSupported) {
+    pane = (
+      <div className="flex flex--column flex--justify-center flex--align-center">
+        Unsuported network: {networkName}
+      </div>
+    );
+  } else if (!account) {
+    pane = (
+      <Button
+        variant="contained"
+        onClick={activateWallet}
+        disabled={!window.ethereum}
+        fullWidth
+        color="secondary"
       >
+        CONNECT TO METAMASK
+      </Button>
+    );
+  } else {
+    pane = (
+      <React.Fragment>
         <div className="flex flex--justify-center flex--align-center">
           <IconButton aria-label="Decrement Count" onClick={decrementCount}>
             <DecrementCountIcon />
@@ -63,6 +107,18 @@ function Component({
             RESET
           </Button>
         </div>
+      </React.Fragment>
+    );
+  }
+
+  return (
+    <div className={clsx('flex flex--justify-center', classes.container)}>
+      <Paper
+        className={clsx(classes.paper, {
+          [classes.paperInactive]: isTrackingTransaction,
+        })}
+      >
+        {pane}
       </Paper>
 
       {!isTrackingTransaction ? null : (
@@ -75,9 +131,15 @@ function Component({
 }
 
 export default connect(
-  ({ count, wallet }) => ({
+  ({
+    data: { count },
+    wallet: { isTrackingTransaction, account, networkName, networkSupported },
+  }) => ({
     count,
-    isTrackingTransaction: wallet.isTrackingTransaction,
+    isTrackingTransaction,
+    account,
+    networkName,
+    networkSupported,
   }),
   mapDispatchToProps
 )(Component);

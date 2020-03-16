@@ -1,15 +1,11 @@
-import COUNTER_CONTRACT_JSON from 'data/contracts/Counter';
 import Promise from 'bluebird';
 import Web3 from 'web3';
 import store from 'store';
-import { setCount } from 'actions';
 
-const CONTRACTS_JSON = {
-  counter: COUNTER_CONTRACT_JSON,
-};
+export const WRITES_ENABLED = typeof window.web3 !== 'undefined';
 
 export const WEB3 = new Web3(
-  typeof window.web3 !== 'undefined'
+  WRITES_ENABLED
     ? window.web3.currentProvider
     : new Web3.providers.HttpProvider(
         'https://mainnet.infura.io/v3/90b4177113144a0c82b2b64bc01950e1'
@@ -18,32 +14,25 @@ export const WEB3 = new Web3(
 window.WEB3 = WEB3;
 
 export class Contract {
-  constructor(contractType) {
-    this.setContractPromise = this.setContract(contractType);
+  setNetworkId(networkId) {
+    this.networkId = networkId;
   }
 
-  async isReady() {
-    await this.setContractPromise;
-  }
-
-  async setContract(contractType) {
-    const networkId = await WEB3.eth.net.getId();
-    console.log('network id', networkId);
-    const json = CONTRACTS_JSON[contractType];
-    this.address = json.networks[networkId].address;
+  setContract(json) {
+    const network = json.networks[this.networkId];
+    this.address = network.address;
     this.contract = new WEB3.eth.Contract(json.abi, this.address);
   }
 
-  async read(method, ...args) {
-    return this.callContract(false, method, ...args);
+  async read(method, args = []) {
+    return this.callContract(false, method, args);
   }
 
-  async write(method, ...args) {
-    return this.callContract(true, method, ...args);
+  async write(method, args = [], options = {}) {
+    return this.callContract(true, method, args, options);
   }
 
-  async callContract(write, method, ...args) {
-    await this.setContractPromise;
+  async callContract(write, method, args, options) {
     return new Promise((resolve, reject) => {
       const writeOpts = {};
       if (write) {
@@ -51,11 +40,14 @@ export class Contract {
           wallet: { account },
         } = store.getState();
         writeOpts.from = account;
+        for (const k in options) {
+          writeOpts[k] = options[k];
+        }
       }
       this.contract.methods[method](...args)[write ? 'send' : 'call'](
         ...(write ? [writeOpts] : []),
         (err, response) => {
-          if (err) return reject(err.message);
+          if (err) return reject(new Error(err.message));
           resolve(response.c?.[0] ?? response);
         }
       );
@@ -63,18 +55,6 @@ export class Contract {
   }
 
   async on(eventName, fn) {
-    await this.setContractPromise;
     this.contract.events[eventName]({}, fn);
   }
 }
-
-const CONTRACT = new Contract('counter');
-export const TOKEN_CONTRACT = CONTRACT;
-export const COUNTER_CONTRACT = CONTRACT;
-
-COUNTER_CONTRACT.on('Count', function(err, result) {
-  if (err) {
-    return console.error(err);
-  }
-  store.dispatch(setCount(parseInt(result.returnValues.count)));
-});

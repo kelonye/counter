@@ -46,10 +46,6 @@ module.exports = {
     // options below to some value.
     //
     development: {
-      // host: "127.0.0.1",     // Localhost (default: none)
-      // port: 8545,            // Standard Ethereum port (default: none)
-      // network_id: "*",       // Any network (default: none)
-
       host: "localhost",
       port: 7545,
       network_id: "5777"
@@ -88,6 +84,17 @@ module.exports = {
           "https://rinkeby.infura.io/v3/" + process.env.INFURA_API_KEY
         ),
       network_id: 4,
+      gas: 3000000,
+      gasPrice: 10000000000
+    },
+    goerli: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.MNENOMIC,
+          "https://goerli.infura.io/v3/" + process.env.INFURA_API_KEY,
+          2
+        ),
+      network_id: 5,
       gas: 3000000,
       gasPrice: 10000000000
     },

@@ -1,3 +1,3 @@
 export * from './app';
 export * from './wallet';
-export * from './counter';
+export * from './data';
