@@ -51,6 +51,12 @@ module.exports = {
       network_id: "5777"
     },
 
+    circleci: {
+      host: "localhost",
+      port: 8545,
+      network_id: "*"
+    },
+
     // testnets
     // properties
     // network_id: identifier for network based on ethereum blockchain. Find out more at https://github.com/ethereumbook/ethereumbook/issues/110
@@ -131,5 +137,7 @@ module.exports = {
       //  evmVersion: "byzantium"
       // }
     }
-  }
+  },
+
+  plugins: ["truffle-security"]
 };

@@ -17,3 +17,4 @@
 - [x] Subscribe to contact events
 - [x] Track transactions using [Dfuse.io](https://www.dfuse.io)
 - [ ] Subscribe to wallet availability, selected account change etc
+- [x] Tests
