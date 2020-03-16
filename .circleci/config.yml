@@ -12,8 +12,8 @@ jobs:
       - checkout:
           path: ~/app
       - node/with-cache:
-          cache-key: ~/project/backend/package.json
-          dir: ~/project/backend
+          cache-key: ~/app/backend/package.json
+          dir: ~/app/backend
           steps:
             - run: npm install
       - run:
