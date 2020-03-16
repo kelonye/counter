@@ -11,11 +11,7 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - node/with-cache:
-          cache-key: ~/project/backend/package.json
-          dir: ~/project/backend
-          steps:
-            - run: npm install
+      - run: npm install
       - run:
           name: "Run Ganache"
           command: ./node_modules/.bin/ganache-cli -i 1234 -e 100000000000 -l 30000000
