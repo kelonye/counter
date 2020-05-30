@@ -1,19 +1,23 @@
 pragma solidity >= 0.5.0 < 0.7.0;
 
+import "@openzeppelin/contracts/math/SafeMath.sol";
+
 contract Counter {
-  int private count = 0;
+  using SafeMath for uint;
+
+  uint private count = 0;
 
   event Count(
-    int count
+    uint count
   );
 
   function incrementCount() public {
-    count += 1;
+    count = count.add(1);
     emit Count(count);
   }
 
   function decrementCount() public {
-    count -= 1;
+    count = count.sub(1);
     emit Count(count);
   }
 
@@ -22,7 +26,7 @@ contract Counter {
     emit Count(count);
   }
 
-  function getCount() public view returns (int) {
+  function getCount() public view returns (uint) {
     return count;
   }
 }

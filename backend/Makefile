@@ -1,13 +1,16 @@
 deploy:
-	@truffle migrate
+	@./node_modules/.bin/truffle migrate
 
 deploy-test:
-	@truffle migrate --network ropsten
+	@./node_modules/.bin/truffle migrate --network ropsten
 
 deploy-main:
-	@truffle migrate --network main
+	@./node_modules/.bin/truffle migrate --network main
 
 test:
-	@truffle test
+	@./node_modules/.bin/truffle test
 
-.PHONY: test deploy-main deploy-test deploy
+verify:
+	@./node_modules/.bin/truffle run verify
+
+.PHONY: verify test deploy-main deploy-test deploy

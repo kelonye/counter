@@ -1,0 +1,32 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@1.1.6
+
+jobs:
+  test-and-verify:
+    executor:
+      name: node/default
+    working_directory: ~/app/backend
+    steps:
+      - checkout:
+          path: ~/app
+      - node/with-cache:
+          cache-key: ~/app/backend/package.json
+          dir: ~/app/backend
+          steps:
+            - run: npm install
+      - run:
+          name: "Run Ganache"
+          command: ./node_modules/.bin/ganache-cli -i 1234 -e 100000000000 -l 30000000
+          background: true
+      - run:
+          name: "Run Tests"
+          command: ./node_modules/.bin/truffle test --network circleci
+      - run:
+          name: "Verify Contracts"
+          command: ./node_modules/.bin/truffle run verify --network circleci
+workflows:
+  test-and-verify:
+    jobs:
+      - test-and-verify
