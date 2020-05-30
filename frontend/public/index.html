@@ -25,25 +25,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Counter</title>
-    <script>
-      if (themeIsLight()) {
-        var root = document.documentElement.classList;
-        root.remove('dark');
-        root.add('light');
-      }
-
-      function themeIsLight() {
-        try {
-          if (!('localStorage' in window && window['localStorage'] !== null)) {
-            return false;
-          }
-          var theme = localStorage.getItem('foam-mapviewer:theme');
-          return 'dark' === JSON.parse(theme);
-        } catch (e) {
-          return false;
-        }
-      }
-    </script>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
       rel="stylesheet"
@@ -161,6 +142,28 @@
         }
       }
     </style>
+    <script>
+      var root = document.documentElement.classList;
+      if (themeIsDark()) {
+        root.remove('light');
+        root.add('dark');
+      } else {
+        root.remove('dark');
+        root.add('light');
+      }
+
+      function themeIsDark() {
+        try {
+          if (!('localStorage' in window && window['localStorage'] !== null)) {
+            return false;
+          }
+          var theme = localStorage.getItem('foam-mapviewer:theme');
+          return 'dark' === JSON.parse(theme);
+        } catch (e) {
+          return false;
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
