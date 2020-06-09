@@ -66,8 +66,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           process.env.MNENOMIC,
-          "https://ropsten.infura.io/v3/" + process.env.INFURA_API_KEY,
-          2
+          "https://ropsten.infura.io/v3/" + process.env.INFURA_API_KEY
         ),
       network_id: 3,
       gas: 3000000,
@@ -97,8 +96,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           process.env.MNENOMIC,
-          "https://goerli.infura.io/v3/" + process.env.INFURA_API_KEY,
-          2
+          "https://goerli.infura.io/v3/" + process.env.INFURA_API_KEY
         ),
       network_id: 5,
       gas: 3000000,

@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
   },
-  paper: { marginTop: 50, padding: 50 },
+  paper: { padding: 50 },
   paperInactive: {
     opacity: 0.5,
     pointerEvents: 'none',

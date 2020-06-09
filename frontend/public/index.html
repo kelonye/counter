@@ -5,10 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Counter"
-    />
+    <meta name="description" content="Counter" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -26,7 +23,7 @@
     -->
     <title>Counter</title>
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap"
       rel="stylesheet"
     />
     <style media="screen">
@@ -36,13 +33,12 @@
         width: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
       }
 
       body {
         margin: 0;
         padding: 0;
-        font-family: 'Avenir', 'proxima-nova', 'Source Sans Pro', Arial, sans-serif;
+        font-family: 'Work Sans', Arial, sans-serif;
         color: #404040;
         background: white;
       }
@@ -51,7 +47,6 @@
       .anim-loading body {
         height: 100%;
         width: 100%;
-        overflow: hidden;
       }
 
       .anim-loading body {
@@ -60,7 +55,7 @@
       }
 
       .dark body {
-        background: #212121
+        background: #212121;
       }
 
       #loader-container {
@@ -157,7 +152,7 @@
           if (!('localStorage' in window && window['localStorage'] !== null)) {
             return false;
           }
-          var theme = localStorage.getItem('foam-mapviewer:theme');
+          var theme = localStorage.getItem('theme');
           return 'dark' === JSON.parse(theme);
         } catch (e) {
           return false;

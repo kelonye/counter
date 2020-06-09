@@ -1,6 +1,5 @@
 import COUNTER_CONTRACT_JSON from 'data/contracts/Counter';
 import { WEB3, WRITES_ENABLED } from 'utils/wallet';
-import dfuse from 'utils/dfuse';
 import { COUNTER_CONTRACT } from 'contracts';
 
 export default Base =>
@@ -17,8 +16,6 @@ export default Base =>
 
         this.state.wallet.networkId = networkId;
         this.state.wallet.networkName = networkName;
-
-        dfuse.setClientNetwork(networkName === 'main' ? 'mainet' : networkName);
 
         const networkSupported = (this.state.wallet.networkSupported =
           networkId in COUNTER_CONTRACT_JSON.networks);

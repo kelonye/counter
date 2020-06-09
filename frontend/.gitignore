@@ -10,7 +10,5 @@ yarn-debug.log*
 yarn-error.log*
 
 build
-src/data
-
 node_modules
 package-lock.json

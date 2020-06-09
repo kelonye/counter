@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as mapDispatchToProps from 'actions';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
-import { DANGER_COLOR } from 'config';
 import Header from './Header';
 import Home from './Home';
 import Loader from './Loader';
-import { Router } from 'react-router-dom';
+import Error from './Error';
+import { Router, Route, Switch } from 'react-router-dom';
 import { history } from 'store';
 import themeSelector, { isDarkSelector } from 'selectors/theme';
 import { CssBaseline } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  error: { padding: 50, color: DANGER_COLOR },
+  container: { paddingTop: 150 },
 }));
 
 function Component({ error, isLoaded, theme, isDark }) {
@@ -28,12 +28,14 @@ function Component({ error, isLoaded, theme, isDark }) {
 
   let pane;
   if (error) {
-    pane = <div className={classes.error}>{error}</div>;
+    pane = <Error {...{ error }} />;
   } else if (isLoaded) {
     pane = (
       <div className="flex-grow">
         <Header />
-        <Home />
+        <Switch>
+          <Route path={'/'} component={Home} />
+        </Switch>
       </div>
     );
   } else {
@@ -43,14 +45,14 @@ function Component({ error, isLoaded, theme, isDark }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router {...{ history }}>
-        <div>{pane}</div>
+        <div className={classes.container}>{pane}</div>
       </Router>
     </ThemeProvider>
   );
 }
 
 export default connect(state => {
-  const { app, user } = state;
+  const { app } = state;
   const { isLoaded, error } = app;
   let err;
   if (error) {
@@ -60,7 +62,6 @@ export default connect(state => {
 
   return {
     isLoaded,
-    user,
     error: err,
     theme: themeSelector(state),
     isDark: isDarkSelector(state),

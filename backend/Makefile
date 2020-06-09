@@ -13,4 +13,13 @@ test:
 verify:
 	@./node_modules/.bin/truffle run verify
 
-.PHONY: verify test deploy-main deploy-test deploy
+copy-build:
+	@cp -rf $(PWD)/build/ ../frontend/src/data
+
+.PHONY: deploy \
+		deploy-test \
+		deploy-main \
+		test \
+		verify \
+		copy-build
+

@@ -1,8 +1,4 @@
-import { APP_SLUG } from 'config';
-
 export default function cache(k, v) {
-  k = `${APP_SLUG}:${k}`;
-
   switch (arguments.length) {
     case 2:
       if (v === null) return window.localStorage.removeItem(k);
@@ -15,7 +11,7 @@ export default function cache(k, v) {
         return null;
       }
 
-    default:
-      return;
+      default:
+        return;
   }
 }

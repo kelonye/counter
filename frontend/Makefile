@@ -6,6 +6,6 @@ deploy:
 	@surge -d https://decentralized-counter.surge.sh -p build
 
 node_modules:
-	@npm i
+	@yarn
 
 .PHONY: deploy run

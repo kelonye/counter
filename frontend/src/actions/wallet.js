@@ -1,9 +1,8 @@
 // import Promise from 'bluebird';
 import { ACTION_TYPE_UPDATE_WALLET } from 'config';
-import dfuse from 'utils/dfuse';
 
 export function loadWallet() {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     try {
       const {
         wallet: { account },
@@ -28,7 +27,7 @@ export function loadWallet() {
 }
 
 export function activateWallet() {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     await window.ethereum.enable();
     dispatch(loadWallet());
   };
@@ -42,9 +41,9 @@ export function updateWallet(payload) {
 }
 
 export function trackTransaction(transactionId) {
-  return async(dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch(updateWallet({ isTrackingTransaction: true }));
-    await dfuse.trackTransaction(transactionId);
+    //
     dispatch(updateWallet({ isTrackingTransaction: false }));
   };
 }

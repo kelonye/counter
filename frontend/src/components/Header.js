@@ -15,7 +15,7 @@ import { isDarkSelector } from 'selectors/theme';
 
 function Component({ toggleTheme, isDark, networkName, account }) {
   return (
-    <AppBar position="static" color="inherit">
+    <AppBar position="fixed" color="inherit">
       <Toolbar color="inherit">
         <IconButton edge="start" color="inherit" aria-label="menu">
           <MenuIcon />

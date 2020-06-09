@@ -4,16 +4,12 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', 'Avenir', 'proxima-nova', 'Source Sans Pro', Arial,
-    sans-serif;
   color: #404040;
-  // @include no-select;
 
   .dark {
     color: white;
@@ -26,7 +22,7 @@ a {
 
 // a,
 // a * {
-//   color: #f50057;
+//   color: #59b9f1;
 // }
 
 .user-selectable {

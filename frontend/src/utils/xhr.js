@@ -1,7 +1,9 @@
 import NProgress from 'nprogress';
 import Promise from 'bluebird';
 import fetch from 'unfetch';
-import { stringify } from 'query-string';
+import {
+  stringify
+} from 'query-string';
 import cache from './cache';
 
 export function xhr(method, url, payload, headers = {}) {
@@ -11,14 +13,10 @@ export function xhr(method, url, payload, headers = {}) {
     credentials: 'omit',
     method,
     mode: 'cors',
-    // referrer: 'https://map.foam.space/',
-    // referrerPolicy: 'no-referrer-when-downgrade',
     headers: {
       accept: 'application/json',
       'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
       'content-type': 'application/json',
-      // 'sec-fetch-mode': 'cors',
-      // 'sec-fetch-site': 'same-site',
       ...headers,
     },
   };
